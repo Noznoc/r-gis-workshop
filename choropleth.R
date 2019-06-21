@@ -145,4 +145,4 @@ variable_name <- "youthPro"
 # Now update the variable and variable_name to gb$youthPro
 
 # If you want to save your data outputs, you can write them within your working directory.
-writeOGR(gb_filtered, "./data", "bc", driver="ESRI Shapefile")
+st_write(gb_filtered, "bc.shp")
