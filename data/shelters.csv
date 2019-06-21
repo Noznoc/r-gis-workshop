@@ -1,0 +1,31 @@
+shelter,address,latitude,longitude,wheelchair,pets,laundry,type
+Coquitlam Raincity Shelter,"3030 Gordon Ave, Coquitlam",49.2701852,-122.7915992,yes,yes,yes,adults
+Salvation Army Ridge Meadows Ministries,"22188 Lougheed Hwy, Maple Ridge",49.216505,-122.607613,yes,no,yes,adults
+Salvation Army Gateway of Hope,"5787 Langley Bypass, Langley",49.1075828,-122.6433255,yes,no,yes,adults
+Bill Reid Place (Hyland House Cloverdale),"17752 Colebrook Road, Surrey",49.0991003,-122.7304604,yes,yes,yes,adults
+Guildford Shelter,"14716 104th Ave, Surrey",49.1911793,-122.8142567,no,yes,yes,adults
+Hyland House,"6595 King George Highway, Surrey",49.1226766,-122.8459953,yes,no,yes,adults
+Lookout Gateway Shelter,"10667 135A Street, Surrey",49.1964258,-122.8473055,yes,yes,no,adults
+Aboriginal Shelter,"201 Central Street, Vancouver",49.2715493,-123.0993471,yes,yes,no,adults
+First Baptist Church,"969 Burrard Street, Vancouver",49.2816532,-123.1261122,no,no,no,adults
+First United Church,"320 East Hastings St, Vancouver",49.2810139,-123.0971585,yes,yes,no,adults
+Lookout Al Mitchell Place Shelter,"346 Alexander, Vancouver",49.2836885,-123.096282,yes,yes,no,adults
+Lookout North Shore,"705 West 2nd, North Vancouver",49.266801,-123.11466,yes,yes,no,adults
+Lookout Yukon Shelter,"2088 Yukon Street (at 5th), Vancouver",49.2668769,-123.1124216,yes,yes,yes,adults
+New Fountain Shelter,356 East Hastings St. Vancouver,49.2809812,-123.0961603,yes,yes,no,adults
+Salvation Army Crosswalk Shelter,"136 E Cordova, Vancouver",49.2822092,-123.1010393,yes,no,no,adults
+Triage,"707 Powell Street, Vancouver",49.283128,-123.08905,yes,yes,no,adults
+412 Women's Emergency Drop-In night Shelter,"412 East Cordova Street, Vancouver",49.2820975,-123.0950019,yes,yes,yes,women/families
+Powell Place,"329 Powell Street, Vancouver",49.2833621,-123.0971817,yes,no,yes,women/families
+Salvation Army Belkin House,555 Homer Street. Vancouver,49.2824531,-123.1128874,yes,no,no,women/families
+Welcome House for Immigrants,"530 Drake St, Vancouver",49.2751952,-123.1268482,no,no,yes,women/families
+Lookout The Russell,"740 Carnarvon Street, New Westminster",49.2023742,-122.911578,no,yes,yes,men
+Salvation Army Stevenson House,"32 Elliot Street, New Westminster",49.2069986,-122.9025783,no,no,no,men
+Salvation Army Richmond House,"3111 Shell Road, Richmond",49.1911637,-123.1029607,no,no,yes,men
+Catholic Charities Men's Hostel,"828 Cambie, Vancouver",49.2778698,-123.1153,no,no,yes,men
+Salvation Army Belkin House,"555 Homer Street, Vancouver",49.2824531,-123.1128874,yes,no,no,men
+Salvation Army Beacon,"138 E. Cordova, Vancouver",49.2820512,-123.1009043,yes,no,no,men
+Salvation Army Haven,"128 East Cordova, Vancouver",49.2819782,-123.1014746,no,no,no,men
+Union Gospel Mission Emergency Shelter for Men,"601 East Hastings, Vancouver",49.2813782,-123.0912079,no,no,yes,men
+Covenant House Female-Identified Youth,"575 Drake, Vancouver",49.2754351,-123.1264664,yes,no,no,youth
+Covenant House Male-Identified Youth,"326 West Pender St, Vancouver",49.2821318,-123.1116791,yes,no,no,youth
