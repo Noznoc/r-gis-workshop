@@ -1,5 +1,7 @@
 # Exploitation des données géospatiales avec R : Création de carte choroplèthes à partir de données du recensement  | Leveraging Geospatial Data in R: Choropleth Census Maps
 
+**THIS IS STILL IN DEVELPOMENT UNTIL JUNE 25th AM, DO NOT DOWNLOAD UNTIL THIS MESSAGE HAS BEEN REMOVED**
+
 This is a repo of all scripts for the Geospatial Analytics Seminar's on using R to create choropleth maps.
 
 # Installation
