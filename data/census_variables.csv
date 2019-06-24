@@ -1,4 +1,4 @@
-GEO_CODE (POR),GEO_LEVEL,GEO_NAME,Population Count,Median Age,Population Density (pop/km2),Mean Weeks Worked,After Tax Measure Low Income Prevalence (%),After Tax Cut-Off Low Income Prevalence (%),Total Youth (0-25),Total Adult (26+),Total Adult Males,Total Adult Females
+GEO_CODE (POR),GEO_LEVEL,GEO_NAME,Population Count,Median Age,Population Density (pop/km2),Mean Weeks Worked,After Tax Measure Low Income Prevalence (%),After Tax Cut-Off Low Income Prevalence (%),Total Youth (0-24),Total Adult (25+),Total Adult Males,Total Adult Females
 1001101,NA,NA,NA,NA,0,NA,NA,NA,NA,NA,NA,NA
 1001105,3,"Portugal Cove South, T",150,57.1,131.5,26.1,x,x,20,120,60,65
 1001113,3,"Trepassey, T",485,59.6,8.6,32.4,20.6,20.6,50,420,205,215

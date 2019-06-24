@@ -67,6 +67,7 @@ gb %>%
 # Yes, the maps are not the prettiest, but the point here is to familiarize yourself with the data!
 # Sometimes your Viewer will lag or crash R if the geometry of the data is too complex.
 # R packages have tools to simplify the geometry to reduce data size and allow for data rendering.
+# For this workshop, gb was already simplified using the mapshaper.org. Since gb is public data, using an external tool wasn't an issue.
 # Also, to save space in memory, it's best to remove the plot afterwards.
 
 # Let's plot both variables together
@@ -92,7 +93,6 @@ gb <- left_join(gb, census, by = c("CSDUID" = "GEO_CODE (POR)")) # join the data
 # Different geospatial data types (e.g., geojson, geopackages, shapefiles) compress the data differently.
 # Depending on the size of your data, decide what data file type (or spatial database) is best to use.
 # You can also simplify the geometry, which many R spatial packages support, or you can use external tools.
-# For this workshop, gb was already simplified using the mapshaper.org. Since gb is public data, using an external tool wasn't an issue.
 gb_filtered <- gb[gb$PRUID == 59,] # 59 is British Columbia's province code
 
 # You could also do:

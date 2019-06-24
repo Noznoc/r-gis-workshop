@@ -1,8 +1,6 @@
-# Exploitation des données géospatiales avec R : Création de carte choroplèthes à partir de données du recensement  | Leveraging Geospatial Data in R: Choropleth Census Maps
+# Leveraging Geospatial Data in R: Choropleth Census Maps
 
-**THIS IS STILL IN DEVELPOMENT UNTIL JUNE 25th AM, DO NOT DOWNLOAD UNTIL THIS MESSAGE HAS BEEN REMOVED**
-
-This is a repo of all scripts for the Geospatial Analytics Seminar's on using R to create choropleth maps.
+This is a repo of all scripts and data for the Geospatial Analytics Seminar session "Leveraging Geospatial Data in R: Choropleth Census Maps."
 
 # Installation
 
@@ -12,9 +10,15 @@ If you are not familiar with git, you can download the code and unzip it to acce
 
 # Files
 
-- `/data` has all data necessary for the workshop, including the raw data that was manipulated for the workshop
 - **`choropleth-notebook.Rmd` is the file for the workshop**
-- `census.R` is an example of a R script for manipulating the original census data
+  - `choropleth-notebook.html` is a HTML output of `choropleth-notebook.Rmd`
+- `/data` has all data necessary for the workshop, including the raw data that was manipulated for the workshop
+  - `census_variables.csv` is the file with extracted Census variables from the Census 2016 Profile and from the the `98-400-X2016004_ENG_CSV` data table
+  - `lcsd000b16a_simplified.dbf`, `lcsd000b16a_simplified.prj`, `lcsd000b16a_simplified.shp` and `lcsd000b16a_simplified.shx` are the files for the Census Subdivision (CSD) shapefile
+  - `lcsd000b16a_simplified.json` is the same as the shapefile, but in a different geospatial data format
+  - `shelters.csv` has all shelters from Vancouver (January 2018)
+  - `vancouver_shelters_2018.pdf` is the original file the shelters were extracted from
+- `census.R` is an example of a R script for manipulating the 98-400-X2016004_ENG_CSV Census 2016 data table
 
 # Author
 Julia Conzon (julia.conzon@hsdc-hrdcc.gc.ca)
