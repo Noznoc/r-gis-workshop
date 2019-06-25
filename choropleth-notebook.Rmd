@@ -119,9 +119,9 @@ To save memory in your R environment, it's best to remove the plot afterwards.
 You can also use ggplot2 to map:
 
 ```{r}
-plot_map <- ggplot(data = gb) +
+plot_map <- ggplot(subset(gb, CDUID == 5915)) +
   geom_sf() +
-  geom_sf(data = shelters_sf, fill = "yellow")
+  geom_sf(data = shelters_sf)
 
 plot_map
 ```
@@ -157,12 +157,11 @@ values <- gb_filtered$'Median Age' # the ratio/normalized values that will be vi
 values_name <- "Median Age" # the title that will be printed/visualized on the map output
 ```
 
-Review the distribution of the data to determine the classification method and number of bins.
+Review the distribution of the data to determine the classification method and number of bins.Change the number of bins and scale the x-axis.
 ```{r}
-hist(values, main = paste("Distribution of", values_name), xlab = values_name, breaks = 7, col="yellow") # base R
-
-ggplot(gb_filtered, aes(x = values)) + # or ggplot
-  geom_histogram(binwidth = 5) +
+ggplot(gb_filtered, aes(x = values)) +
+  geom_histogram(bins=30, fill="#56B4E9", color="white") + 
+  scale_x_log10() +
   theme_minimal() +
   xlab(values_name) +
   ylab("Count")
@@ -172,8 +171,8 @@ Finally, let's use tmap to create the choropleth visualization!
 The tmap package utilizes various popular R spatial packages like sp, sf and leaflet.
 It is easy to use for classifying your data and selecting a colour palette to link to the classification scheme.
 The classification methods are defined by the classInterval package: https://www.rdocumentation.org/packages/classInt/versions/0.3-3/topics/classIntervals.
+The color schemes use Color Brewers: http://colorbrewer2.org.
 The function calling is similar to ggplot. Each function you call adds a visual funtionality or layer to the map.
-The tmap package isn't just for choropleth maps, rather for general thematic mapping.
 
 First, you have to define whether to set tmap in plot (static) or view (interactive) map mode.
 ```{r}
@@ -184,7 +183,7 @@ This next chunk of code creates the choropleth map!
 ```{r}
 tm_shape(gb_filtered) + # the geographic data to be added as it's own map layer
   # tm_bubbles(values_name) +
-  tm_fill(values_name, palette="BuPu", style="quantile", n=6, title=values_name, id="name") +
+  tm_fill(values_name, palette="BuPu", style="quantile", n=6, title=values_name, id=values_name) +
   tm_borders(col="grey", alpha=.2) +
   tm_scale_bar(position = c("right", "top")) +
   tm_layout(legend.outside = TRUE, frame = FALSE, attr.outside=TRUE)
@@ -196,7 +195,7 @@ Now let's add the shelter layer, but let's first filter our data to Greater Vanc
 gb_vancouver <- gb[gb$CDUID == 5915,]
 
 tm_shape(gb_vancouver) +
-  tm_fill(values_name, palette="BuPu", style="quantile", n=6, title=values_name, id="name")+
+  tm_fill(values_name, palette="BuPu", style="quantile", n=6, title=values_name, id=values_name)+
   tm_borders(col="grey", alpha=.5) +
 tm_shape(shelters_sf) +
   tm_dots("type", size = 0.4, title = "Shelter Type") +
@@ -216,7 +215,9 @@ values_name <- "youthPro"
 
 Re run the above tm_shape chunk to see the newest output!
 
-Take your time and read tmap documentation to modify the look of the choropleth. Play around with the different classification methods and bin numbers as well. Once you are happy with the visualization, you can export it as PDF or an image. You can also use the script within a R Shiny App.
+Take your time and read tmap documentation to modify the look of the choropleth. Remember you can run ??packageName in the console to open documentation on a specific package. Play around with the different color schemes, classification methods and bin numbers as well.You can use the breaks parameter in tm_fill when style="fixed" or style="cont". Don't forget you can toggle between plot and view modes to view the map as static or interactive. 
+
+Once you are happy with the visualization, you can export it as PDF or an image through the Viewer tab, or you can "Knit" the Rmarkdown into a HTML!
 
 Last, if you want to save your data outputs, you can write them within your working directory.
 ```{r message=FALSE, warning=FALSE}
