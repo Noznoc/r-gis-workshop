@@ -2,11 +2,15 @@
 
 This is a repo of all scripts and data for the Geospatial Analytics Seminar session "Leveraging Geospatial Data in R: Choropleth Census Maps."
 
+You can access the presentation on [GCPedia](http://www.gcpedia.gc.ca/wiki/ESDC_Analytics_Seminar_-_Past_Sessions).
+
 # Installation
 
 If you are familiar with git, clone the repo using GitBash.
 
 If you are not familiar with git, you can download the code and unzip it to access the files.
+
+It is recommended for the workshop to store the downloaded/cloned session2-r-choropleth folder in your C drive.
 
 # Files
 
