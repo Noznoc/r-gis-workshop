@@ -1,8 +1,6 @@
 # Leveraging Geospatial Data in R: Choropleth Census Maps
 
-This is a repo of all scripts and data for the Geospatial Analytics Seminar session "Leveraging Geospatial Data in R: Choropleth Census Maps."
-
-You can access the presentation on [GCPedia](http://www.gcpedia.gc.ca/wiki/ESDC_Analytics_Seminar_-_Past_Sessions).
+A repo for a R workshop.
 
 # Installation
 
