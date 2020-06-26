@@ -23,4 +23,4 @@ It is recommended for the workshop to store the downloaded/cloned session2-r-cho
 - `census.R` is an example of a R script for manipulating the 98-400-X2016004_ENG_CSV Census 2016 data table
 
 # Author
-Julia Conzon (julia.conzon@hsdc-hrdcc.gc.ca)
+@Noznoc
