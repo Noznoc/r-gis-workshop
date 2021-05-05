@@ -1,12 +1,12 @@
 # This is a R workshop on leveraging geospatial data and packages!
 
-# June 25, 2019
+# May 13, 2021
 
 # By Julia Conzon
-# CDO's Data Science Team
+# Centre for Special Business Projects, Statistics Canada
 
 # Set work directory.
-setwd("U:/SP-PS/DMD/Data Science/02-OtherAnalyticsProjects/2019-Geo/3-Disseminate/Seminars/Session 2/r-choropleth")
+# setwd("U:/SP-PS/DMD/Data Science/02-OtherAnalyticsProjects/2019-Geo/3-Disseminate/Seminars/Session 2/r-choropleth")
 
 # If you don't not have the following packages, then install them.
 # install.packages("tidyverse","tmap", "sf")
