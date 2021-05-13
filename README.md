@@ -12,7 +12,7 @@ It is recommended for the workshop to store the downloaded/cloned session2-r-cho
 
 # Files
 
-- **`thematic-map-notebook.Rmd` is the file for the workshop**
+- **`thematic-maps-notebook.Rmd` is the file for the workshop**
   - `index.html` is a HTML output of `choropleth-notebook.Rmd`
 - `/data` has all data necessary for the workshop, including the raw data that was manipulated for the workshop
   - `census_variables.csv` is the file with extracted Census variables from the Census 2016 Profile and from the the `98-400-X2016004_ENG_CSV` data table
