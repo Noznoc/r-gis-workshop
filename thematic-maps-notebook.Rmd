@@ -1,0 +1,213 @@
+---
+title: "Leveraging Geospatial Data"
+output:
+  html_document:
+    df_print: paged
+---
+
+### This is a R workshop on leveraging geospatial data and packages to create thematic (choropleth) maps! 
+
+#### May 13, 2021 | Julia Conzon (julia.conzon@canada.ca), Centre for Special Business Projects, Statistics Canada
+
+In this tutorial we will be using a R Markdown Notebook to document and share the script. R Markdown Notebooks are popular for reporting analyses as they can show the entire workflow from data manipulation to visualization. This allows for a reproducible workflow.
+
+For this workshop, the Census 2016 data was manipulated and saved into `./data/census_variables.csv`. When working on an analyses in R, those manipulation steps should be incorporated within your workflow, not done externally. This ensures a reproducible workflow. The census.R script shows how an original Census table on age demographics was manipulated and exported for this workshop.
+
+First we will want to set the work directory (wd). A wd will link R to the folder where your script and data are stored. A wd can be established through creating an R Project or by running the following command:
+```{r}
+setwd(".")
+```
+
+Next, if you don't not have the following packages, then install them. You will need to uncomment the following line to be able to run it.
+```{r}
+# install.packages(c("tidyverse", "tmap", "sf", "ggplot2"))
+```
+
+Load the dependencies (packages). This will allow you to use the packages' methods and classes.
+```{r message=FALSE, warning=FALSE}
+library(tidyverse) # for data piping
+library(tmap) # for quick static and interactive thematic maps
+library(ggplot2) # for plotting map data
+library(sf) # for geospatial data reading and writing in simple feature format
+```
+
+To learn more about the libraries, you can run the following command in the console:
+```{r}
+??sf 
+```
+
+Load the data into the R environment.
+```{r}
+gb <- read_sf("./data", "lcsd000b16a_simplified") # read census subdivisions (CSDs), a Statistics Canada geographic boundary
+census <- read_csv("./data/census_variables.csv") # read census variables/attributes, extracted from the Census 2016 data tables
+shelters <- read_csv("./data/shelters.csv") # read Vancouver shelters, retrieved here http://hsa-bc.ca/shelters/shelter-directory/
+```
+
+Under your Environment tab, you should now have three data files visible. When you load these files into your R environment, it takes space on your computer's RAM. When working with geospatial data, the size of your data can be large, especially if working with detailed polygon geometry at the national-level. Fortunately, R packages have tools to simplify the geometry to reduce data size and allow for data rendering. For this workshop, gb was already simplified using https://mapshaper.org/. Since gb is public data, using an external tool wasn't an issue. Mapshaper actually has a R package, but it is currently not approved for departmental use.
+
+Also, geospatial data formats store and compress data differently. If you look at your working directory's data folder you will see there is a shapefile, which consists of 4 separate files: lcsd000b16a_simplified.shp, lcsd000b16a_simplified.shx, lcsd000b16a_simplified.dbf, lcsd000b16a_simplified.prj, as well as lcsd000b16a_simplified.json. See how the file size is different? Reflecting on your research/target area (e.g., national versus local), the type of data model (vector vs. raster) and the geometry (point, line, polygon) of your data, decide what data file type (or spatial database) is best to use.
+
+With the data loaded, time to review and explore your data.
+```{r}
+View(census) # see the census csv as a R dataframe in a new tab
+View(gb) # see the census subdivisions (CSDs) data as simple feature polygons
+st_geometry(gb) # see a summary of the CSDs geometry data
+View(st_geometry(gb)) # see all CSD geometry
+View(shelters) # see the Vancouver shelters as a dataframe in a new tab
+```
+
+The census dataframe has the GEO_CODE (POR) varaible that link the Census variables to the Census geographic boundaries (Canada, P/Ts, CSDs). This varaible will be needed to link the census dataframe to the gb's CSDUID variable.
+
+Last, let's checkout the shelter's geometry.
+```{r}
+# st_geometry(shelters) # see a summary of the shelter geometry
+```
+
+There was an error where running st_geometry(shelters_sf) because the shelters file is still only a dataframe with no established geometric class. To leverage the coordinate locations (longitude and latitude) of the shelters, you will need to convert the shelter dataframe into a simple feature of points using the sf package. Simple features are a standard for geospatial feature representations (i.e., points, lines and polygons) and are stored as well-known text (WKT). To learn more about the standard, check out here: https://www.r-spatial.org/r/2016/02/15/simple-features-for-r.html. 
+```{r}
+shelters_sf <- st_as_sf(shelters, coords = c("longitude", "latitude"), crs = 4326) # cast shelter coordinate locations into a simple feature using the longitude and latitude variables
+```
+
+In this case, we specified the coordinate reference system (CRS) as 4326 (https://epsg.io/4326) because that's the CRS the longitude and latitude are stored in. 4326 assumes a ellipsoid surface, and is widely used for web mapping purposes. Run the following command again to confirm the shelters are now simple features:
+
+```{r}
+st_geometry(shelters_sf) # see the summary shelter geometry
+
+```
+
+Notice how the projection for gb is different than the shelters? This is because the data for the geographic boundary was retrieved from Statistics Canada, which uses the Lambert Conformal Conic (LLC) projection, the government standard for national maps, while the shelters were geocded using Google Maps API, which uses the World Geodetic System 1984. You can transform your data to a projection and datum that matches the rest of your data or that align with you study area.
+Since the data are simple features, we will continue to use the sf package for data manipulation/processing.
+```{r}
+shelters_sf <- st_transform(shelters_sf, crs=3347) # transform to the projection used by Statistic Canada
+```
+
+Now your data is represented in the same coordinate reference system. You can learn more about the projection of the data here: https://www150.statcan.gc.ca/n1/pub/92-195-x/2011001/other-autre/mapproj-projcarte/m-c-eng.htm
+
+Now that your data is prepared, it's time to see your geospatial data on a simple map! First, you can simply plot it using sf.
+
+1) This plot shows all CSDs and colours by province
+```{r}
+plot(gb["PRUID"], graticule = TRUE, main = "Census Subdivisions (CSDs)", key.pos = NULL)
+```
+
+
+2) This plot shows all the Vancouver shelters and colours by type of shelter
+```{r}
+plot(shelters_sf["type"], key.pos = NULL, graticule = TRUE, main = "Vancouver Shelters")
+```
+
+
+Yes, the maps are not the prettiest, but the point here is to familiarize yourself with the data!Note how it's hard to tell where the shelters are actually situated with Vancouver without a boundary layer.
+
+Sometimes your Viewer will lag or crash R if the geometry of the data is too big or complex (e.g., detail coast lines).
+To save memory in your R environment, it's best to remove the plot afterwards.
+
+Though sf has plotting featurse, ggplot2 seems to be more popular for usage. So let's use ggplot to overlay the shelters within Vancouver. Here is an example:
+
+```{r}
+plot_map <- ggplot(subset(gb, CDUID == 5915)) +
+  geom_sf() +
+  geom_sf(data = shelters_sf)
+
+plot_map
+```
+
+ggplot2 has methods to enhance the visual appeal of the map. Check out this blog to see some example of ggplot2 maps: https://timogrossenbacher.ch/2016/12/beautiful-thematic-maps-with-ggplot2-only/. ggmap is another R package you can use to add additional map features to your ggplot maps.
+
+Next, let's link the census data to the CSDs with the tidyverse package. We won't need to link via spatial join because both the gb and census data have the CSD unique identifiers variable (gd's CSDUID and census' GEO_CODE (POR)) that can be matched.
+Sometimes you will have to convert your data to different types to compute the linkage. Using the as.___ function is how you cast your data variables to different types.
+```{r}
+census$`GEO_CODE (POR)` <- as.factor(census$`GEO_CODE (POR)`) # in this case, we are casting the census GC_CODE (POR) variable to a factor to match the CSDUID variable type in gb
+gb <- left_join(gb, census, by = c("CSDUID" = "GEO_CODE (POR)")) # join the data frames together by the linking variables
+```
+
+The join method links the gb attribute data's CSDUIDs to the CSDUIDs in the census data frame. "Left" returns all records from the left table (i.e., gb) and only those that match on the right table (i.e., census).
+
+As mentioned above, working with geospatial data is memory intensive.
+For this workshop we will filter our data to a provincial level to avoid software crashes!
+```{r}
+gb_filtered <- gb[gb$PRUID == 59,] # 59 is British Columbia's province code
+```
+
+You could also do:
+```{r}
+gb_filtered <- gb %>% filter(gb$PRUID == 59)
+```
+
+There are different ways to accomplish the same task, but some methods are better than others. Certain R packages are recommended, like tidyverse, because they are computationally more efficient than others (e.g., base R).
+
+Now, time to create two variables: (1) to store what Census variable we want to be visualized in the choropleth map, and (2) to store the name of the variable so that it can be visualized as the title on the map.
+We establish these variables to generalize the script. You will see how this is useful as you play around with visualizing different data variables.
+```{r}
+values <- gb_filtered$'Median Age' # the ratio/normalized values that will be visible on the map
+values_name <- "Median Age" # the title that will be printed/visualized on the map output
+```
+
+Review the distribution of the data to determine the classification method and number of bins.Change the number of bins and scale the x-axis.
+```{r}
+ggplot(gb_filtered, aes(x = values)) +
+  geom_histogram(bins=30, fill="#56B4E9", color="white") + 
+  scale_x_log10() +
+  theme_minimal() +
+  xlab(values_name) +
+  ylab("Count")
+```
+
+Finally, let's use tmap to create the choropleth visualization!
+The tmap package utilizes various popular R spatial packages like sp, sf and leaflet.
+It is easy to use for classifying your data and selecting a colour palette to link to the classification scheme.
+The classification methods are defined by the classInterval package: https://www.rdocumentation.org/packages/classInt/versions/0.3-3/topics/classIntervals.
+The color schemes use Color Brewers: http://colorbrewer2.org.
+The function calling is similar to ggplot. Each function you call adds a visual funtionality or layer to the map.
+
+First, you have to define whether to set tmap in plot (static) or view (interactive) map mode.
+```{r}
+tmap_mode("view")
+```
+
+This next chunk of code creates the choropleth map!
+```{r}
+tm_shape(gb_filtered) + # the geographic data to be added as it's own map layer
+  # tm_bubbles(values_name) +
+  tm_fill(values_name, palette="BuPu", style="quantile", n=6, title=values_name, id=values_name) +
+  tm_borders(col="grey", alpha=.2) +
+  tm_scale_bar(position = c("right", "top")) +
+  tm_layout(legend.outside = TRUE, frame = FALSE, attr.outside=TRUE)
+```
+
+You just created your first choropleth map!
+Now let's add the shelter layer, but let's first filter our data to Greater Vancouver.
+```{r}
+gb_vancouver <- gb[gb$CDUID == 5915,]
+
+tm_shape(gb_vancouver) +
+  tm_fill(values_name, palette="BuPu", style="quantile", n=6, title=values_name, id=values_name)+
+  tm_borders(col="grey", alpha=.5) +
+tm_shape(shelters_sf) +
+  tm_dots("type", size = 0.1, title = "Shelter Type") +
+tm_scale_bar(position = c("right", "top")) +
+   tm_layout(legend.outside = TRUE, frame = FALSE, attr.outside=TRUE)
+```
+
+In the tm_dots method, you can change the variable parameter from "type" to something else and change the title of the legend to describe the variable.
+
+So far we have worked with predefined variables, but if you want to normalize your code in R, you can use the following method.
+```{r}
+gb$youthPro <- (gb$`Total Youth (0-24)` / gb$`Population Count`) * 100
+
+values <- gb$youthPro
+values_name <- "youthPro"
+```
+
+Re run the above tm_shape chunk to see the newest output!
+
+Take your time and read tmap documentation to modify the look of the choropleth. Remember you can run ??packageName in the console to open documentation on a specific package. Play around with the different color schemes, classification methods and bin numbers as well.You can use the breaks parameter in tm_fill when style="fixed" or style="cont". Don't forget you can toggle between plot and view modes to view the map as static or interactive. 
+
+Once you are happy with the visualization, you can export it as PDF or an image through the Viewer tab, or you can "Knit" the Rmarkdown into a HTML!
+
+Last, if you want to save your data outputs, you can write them within your working directory.
+```{r message=FALSE, warning=FALSE}
+st_write(gb_filtered, "bc.shp")
+```
+
+Congrats, you just completed the workshop! Feel free to reuse the code for your own choropleth map generation.
